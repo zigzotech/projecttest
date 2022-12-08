@@ -74,19 +74,15 @@ def home(request):
     context = {'rooms': rooms, 'topics': topics, 'room_count': room_count}
     return render(request,'base/home.html', context)
 
-def room(request, pk): 
+def room (request, pk): 
     room = Room.objects.get(id=pk)
-    room_messages = room.message_set.all().order_by('-created')
-def Message(room_messages, request, pk):
-    return render(request,'base/room.html') 
+    room_messages = room.message_set.all().order_by('-created') 
     if request.method == 'POST':
-        
-        message = Message.objects.create(
+         message= Message.objects.create(
             User = request.user,
             room = room,
             body=request.POST.get('body')
         )
-        return redirect('room', pk=room.id)
     context = {'room': room, 'room_messages': room_messages}
     return render(request,'base/room.html', context) 
 
